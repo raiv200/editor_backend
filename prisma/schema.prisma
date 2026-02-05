@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  color        String   @default("#3B82F6")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  rfpsCreated Rfp[]       @relation("RfpCreator")
+  rfpAccess   RfpAccess[]
+}
+
+model Rfp {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  company     String?
+  dueDate     DateTime?
+  status      String    @default("DRAFT")
+  createdById String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  createdBy User        @relation("RfpCreator", fields: [createdById], references: [id])
+  sections  Section[]
+  access    RfpAccess[]
+}
+
+model RfpAccess {
+  id        String   @id @default(cuid())
+  userId    String
+  rfpId     String
+  role      String   @default("EDITOR")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rfp  Rfp  @relation(fields: [rfpId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, rfpId])
+}
+
+model Section {
+  id        String     @id @default(cuid())
+  rfpId     String
+  title     String
+  order     Int
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  rfp       Rfp        @relation(fields: [rfpId], references: [id], onDelete: Cascade)
+  questions Question[]
+}
+
+model Question {
+  id           String    @id @default(cuid())
+  sectionId    String
+  title        String
+  fullQuestion String
+  description  String?
+  order        Int
+  maxChars     Int       @default(3000)
+  answer       String?   @db.Text    // Stores the HTML content of the answer
+  answerJson   String?   @db.Text    // Stores the JSON representation (for Tiptap)
+  answeredAt   DateTime?             // When the answer was last saved
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
