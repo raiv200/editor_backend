@@ -68,31 +68,18 @@ async function main() {
             questions: {
               create: [
                 {
-                  title: 'Q 1.1 - Company Overview',
+                  title: 'Company Overview',
                   fullQuestion: 'Provide a brief overview of your company.',
                   description: 'Include company history, mission, and core services.',
                   order: 1,
                   maxChars: 3000,
                   // Pre-populated answer example (optional - remove if you want blank)
-                  answer: '<p>Our company was founded in 2010 with a mission to deliver innovative cloud solutions...</p>',
-                  answerJson: JSON.stringify({
-                    type: 'doc',
-                    content: [
-                      {
-                        type: 'paragraph',
-                        content: [
-                          {
-                            type: 'text',
-                            text: 'Our company was founded in 2010 with a mission to deliver innovative cloud solutions...',
-                          },
-                        ],
-                      },
-                    ],
-                  }),
+                  answer: null,
+                  answerJson: null,
                   answeredAt: new Date(),
                 },
                 {
-                  title: 'Q 1.2 - Company History',
+                  title: 'Company History',
                   fullQuestion: 'Describe your company history and experience.',
                   order: 2,
                   maxChars: 3000,
@@ -101,7 +88,7 @@ async function main() {
                   answeredAt: null,
                 },
                 {
-                  title: 'Q 1.3 - Certifications',
+                  title: 'Certifications',
                   fullQuestion: 'List all relevant certifications and compliance standards.',
                   order: 3,
                   maxChars: 2000,
@@ -118,7 +105,7 @@ async function main() {
             questions: {
               create: [
                 {
-                  title: 'Q 2.1 - System Architecture',
+                  title: 'System Architecture',
                   fullQuestion: 'Describe your proposed system architecture.',
                   description: 'Include diagrams or detailed descriptions of your architecture.',
                   order: 1,
@@ -128,7 +115,7 @@ async function main() {
                   answeredAt: null,
                 },
                 {
-                  title: 'Q 2.2 - Scalability',
+                  title: 'Scalability',
                   fullQuestion: 'Explain how your solution handles scalability.',
                   order: 2,
                   maxChars: 3000,
@@ -137,7 +124,7 @@ async function main() {
                   answeredAt: null,
                 },
                 {
-                  title: 'Q 2.3 - API Integration',
+                  title: 'API Integration',
                   fullQuestion: 'Describe your API capabilities.',
                   description: 'Include information about REST/GraphQL APIs, authentication methods, and rate limits.',
                   order: 3,
@@ -155,7 +142,7 @@ async function main() {
             questions: {
               create: [
                 {
-                  title: 'Q 3.1 - Security Architecture',
+                  title: 'Security Architecture',
                   fullQuestion: 'Describe your security measures.',
                   description: 'Include encryption, access control, and audit logging details.',
                   order: 1,
@@ -165,7 +152,7 @@ async function main() {
                   answeredAt: null,
                 },
                 {
-                  title: 'Q 3.2 - Data Protection',
+                  title: 'Data Protection',
                   fullQuestion: 'How do you protect customer data?',
                   description: 'Cover data at rest, in transit, and backup/recovery procedures.',
                   order: 2,
@@ -183,7 +170,7 @@ async function main() {
             questions: {
               create: [
                 {
-                  title: 'Q 4.1 - Pricing Model',
+                  title: 'Pricing Model',
                   fullQuestion: 'Provide detailed pricing information.',
                   description: 'Include all tiers, add-ons, and volume discounts.',
                   order: 1,
@@ -193,7 +180,7 @@ async function main() {
                   answeredAt: null,
                 },
                 {
-                  title: 'Q 4.2 - Contract Terms',
+                  title: 'Contract Terms',
                   fullQuestion: 'What are your standard contract terms?',
                   description: 'Include payment terms, SLAs, and termination clauses.',
                   order: 2,

@@ -101,4 +101,41 @@ router.get('/status', (req, res) => {
   });
 });
 
+router.get('/users', authMiddleware, async (req, res) => {
+  try {
+    const { ids } = req.query;
+
+    if (!ids || typeof ids !== 'string') {
+      return res.status(400).json({ error: 'Missing ids query parameter' });
+    }
+
+    const userIds = ids.split(',').map(id => id.trim()).filter(Boolean);
+
+    if (userIds.length === 0) {
+      return res.json({ users: {} });
+    }
+
+    // Limit to prevent abuse
+    if (userIds.length > 50) {
+      return res.status(400).json({ error: 'Too many IDs (max 50)' });
+    }
+
+    const users = await prisma.user.findMany({
+      where: { id: { in: userIds } },
+      select: { id: true, name: true, color: true },
+    });
+
+    // Convert to a map: { [userId]: { name, color } }
+    const userMap = {};
+    users.forEach(user => {
+      userMap[user.id] = { name: user.name, color: user.color };
+    });
+
+    res.json({ users: userMap });
+  } catch (error) {
+    console.error('Get collaboration users error:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
 export default router;
